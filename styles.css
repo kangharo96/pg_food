@@ -1,0 +1,15 @@
+body {
+  margin: 0;
+}
+
+.topbar {
+  background-color: rgb(57,99,98);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+}
