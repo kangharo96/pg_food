@@ -1,15 +1,44 @@
 body {
+  background-color: rgb(57,99,98);
   margin: 0;
 }
 
 .topbar {
+  padding: 16px;
   background-color: rgb(57,99,98);
-  color: white;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
-.header {
+.topbar a {
+  padding: 16px;
+  text-decoration: none;
+  color: white;
+}
+
+.topbar a:visited {
+  background-color: black;
+}
+
+.topbar a:link:active, a:visited:active {
+  background-color: black;
+}
+
+.container {
+  background-color: white;
   display: flex;
   justify-content: center;
+  align-content: space-around;
+}
+
+.content {
+  background-color: rgb(223,205,195);
+  width: 50%;
+  text-align: center;
+  margin: 0 auto;
+  clear: both;
+  content: "";
+  display: table;
+  height: 100vh;
 }
