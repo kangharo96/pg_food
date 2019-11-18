@@ -5,23 +5,26 @@
   <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 
-<body>
+<body onload="logData()">
   <div class='topbar'>
-    <a href='#'>PG FOODS</a>
+    <div>PG Foods</div>
     <div class = 'barright'>
-      <a href='/public/about/index.html'>About</a>
-      <a href='/public/establishments/index.html'>Establishments</a>
-      <a href='/public/statistics/index.html'>Statistics</a>
-      <a href='/public/faqs/index.html'>FAQs</a>
+      <span>About</span>
+      <span>Establishments</span>
+      <span>Statistics</span>
+      <span>FAQs</span>
     </div>
   </div>
-  <div class='container'>
-    <h1>PG Foods</h1>
-    <p>
-      <em>Dedicated to encouraging informed Prince George's county food decisions</em>
-    </p>
-  </div>
-  <div class='content'>
-  </div>
+  <h1 class='header'>PG Foods</h1>
+  <script>
+    function logData(){
+      fetch('/establishments')
+         .then(res => res.json())
+         .then(res => {
+           console.log(res); // logging step to check what we got
+           return res;
+         });
+    }
+  </script>
 </body>
 </html>

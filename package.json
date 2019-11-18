@@ -19,6 +19,8 @@
   },
   "homepage": "https://github.com/kangharo96/pg_food#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "eslint": "^6.6.0",
+    "express": "^4.17.1",
+    "node-fetch": "^2.6.0"
   }
 }
