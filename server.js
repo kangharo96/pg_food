@@ -30,7 +30,7 @@ app.use(express.static('public'));
   In other new, this gets all distinct establishments from the data and their
   latest inspection date.
 */
-app.get('/apis', (req, res) => {
+app.get('/allEstablishments', (req, res) => {
   const appToken = "T4fTY4mWpk91TTTOVWnEPNaI4";
   const baseURL = 'https://data.princegeorgescountymd.gov/resource/umjn-t2iz.json?$'+
   'query=SELECT establishment_id, max(inspection_date) ' +
