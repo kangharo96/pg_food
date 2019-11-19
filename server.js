@@ -24,12 +24,19 @@ app.use(express.static('public'));
   // 'LIMIT 50000';
 // });
 
-app.get('/establishments', (req, res) => {
+/*
+  IMPORTANT For some reason this endpoint can NEVER be called /establishments,
+  literally had me working on this for hours, fml - Colin
+  In other new, this gets all distinct establishments from the data and their
+  latest inspection date.
+*/
+app.get('/apis', (req, res) => {
+  const appToken = "T4fTY4mWpk91TTTOVWnEPNaI4";
   const baseURL = 'https://data.princegeorgescountymd.gov/resource/umjn-t2iz.json?$'+
-  'query=SELECT establishment_id, max(inspection_date) '+
+  'query=SELECT establishment_id, max(inspection_date) ' +
   'GROUP BY establishment_id '+
   'ORDER BY establishment_id ASC ' +
-  'LIMIT 50000';
+  'LIMIT 50000&' + '$$app_token=' + appToken;
 
   fetch(baseURL)
     .then((r) => r.json())
@@ -39,8 +46,9 @@ app.get('/establishments', (req, res) => {
     })
     .catch((err) => {
       console.log(err);
-      res.redirect('/error');
+      //res.redirect('/error');
     });
+
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
