@@ -1,8 +1,10 @@
 const express = require('express');
 const fetch = require('node-fetch');
+const bodyParser = require('body-parser');
 
 const app = express();
 const port = process.env.PORT || 8080;
+const appToken = "T4fTY4mWpk91TTTOVWnEPNaI4";
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -27,22 +29,35 @@ app.use(express.static('public'));
 /*
   IMPORTANT For some reason this endpoint can NEVER be called /establishments,
   literally had me working on this for hours, fml - Colin
-  In other new, this gets all distinct establishments from the data and their
+  In other news, this gets all distinct establishments from the data and their
   latest inspection date.
 */
+// const baseURL = 'https://data.princegeorgescountymd.gov/resource/umjn-t2iz.json?$'+
+// 'query=SELECT establishment_id, max(inspection_date)' +
+// 'GROUP BY establishment_id '+
+// 'ORDER BY establishment_id ASC ' +
+// 'LIMIT 50000&' + '$$app_token=' + appToken;
 app.get('/allEstablishments', (req, res) => {
-  const appToken = "T4fTY4mWpk91TTTOVWnEPNaI4";
   const baseURL = 'https://data.princegeorgescountymd.gov/resource/umjn-t2iz.json?$'+
-  'query=SELECT establishment_id, max(inspection_date) ' +
-  'GROUP BY establishment_id '+
-  'ORDER BY establishment_id ASC ' +
+  'query=SELECT * ' +
+  'ORDER BY establishment_id ASC, inspection_date DESC ' +
   'LIMIT 50000&' + '$$app_token=' + appToken;
 
   fetch(baseURL)
     .then((r) => r.json())
     .then((data) => {
-      console.log(data)
-      res.send({ data: data });
+      let dataDistinct = [];
+      let previousId = 0;
+      for(row = 0; row < data.length; row++){
+        let currId = parseInt(data[row]["establishment_id"], 10);
+        if(data[row]["establishment_id"] > previousId){
+          previousId = currId;
+          dataDistinct.push(data[row]);
+        }
+      }
+      console.log(dataDistinct);
+      //console.log(data);
+      res.send({ data: dataDistinct });
     })
     .catch((err) => {
       console.log(err);
@@ -50,5 +65,10 @@ app.get('/allEstablishments', (req, res) => {
     });
 
 });
+
+// app.post('/establishment', (req, res) => {
+//
+//
+// });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
