@@ -11,6 +11,7 @@ app.use(express.json());
 
 app.use(express.static('public'));
 
+// previous getURLS im not ready to part with - Colin
 // app.get('/establishments', (req, res) => {
   // const baseURL = 'https://data.princegeorgescountymd.gov/resource/umjn-t2iz.json?$'+
   // 'query=SELECT DISTINCT establishment_id, name, category, city, state, zip,' +
@@ -24,6 +25,12 @@ app.use(express.static('public'));
   // 'GROUP BY establishment_id '+
   // 'ORDER BY establishment_id ASC ' +
   // 'LIMIT 50000';
+
+  // const baseURL = 'https://data.princegeorgescountymd.gov/resource/umjn-t2iz.json?$'+
+  // 'query=SELECT establishment_id, max(inspection_date)' +
+  // 'GROUP BY establishment_id '+
+  // 'ORDER BY establishment_id ASC ' +
+  // 'LIMIT 50000&' + '$$app_token=' + appToken;
 // });
 
 /*
@@ -32,12 +39,13 @@ app.use(express.static('public'));
   In other news, this gets all distinct establishments from the data and their
   latest inspection date.
 */
-// const baseURL = 'https://data.princegeorgescountymd.gov/resource/umjn-t2iz.json?$'+
-// 'query=SELECT establishment_id, max(inspection_date)' +
-// 'GROUP BY establishment_id '+
-// 'ORDER BY establishment_id ASC ' +
-// 'LIMIT 50000&' + '$$app_token=' + appToken;
 app.get('/allEstablishments', (req, res) => {
+  /*
+    ~11/20/19 Colin Hambright~
+    New request URL gets every column and orders by establishment_id and
+    inspection_date. Limit will need to change so that we can paginate data
+    apiToken comes from my personal developer account with SODA.
+  */
   const baseURL = 'https://data.princegeorgescountymd.gov/resource/umjn-t2iz.json?$'+
   'query=SELECT * ' +
   'ORDER BY establishment_id ASC, inspection_date DESC ' +
@@ -46,6 +54,12 @@ app.get('/allEstablishments', (req, res) => {
   fetch(baseURL)
     .then((r) => r.json())
     .then((data) => {
+      /*
+        ~11/20/19 Colin Hambright~
+        Grab the first instance of a establishment and add it to a new array.
+        This relies on the url query ordering the establishments by their IDs..
+        and by their inspection dates.
+      */
       let dataDistinct = [];
       let previousId = 0;
       for(row = 0; row < data.length; row++){
@@ -56,7 +70,6 @@ app.get('/allEstablishments', (req, res) => {
         }
       }
       console.log(dataDistinct);
-      //console.log(data);
       res.send({ data: dataDistinct });
     })
     .catch((err) => {
