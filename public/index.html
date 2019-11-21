@@ -20,9 +20,28 @@
     <em>Dedicated to encouraging informed Prince George's county food decisions</em>
   </div>
   <div class='content'>
-    Hi
+      <button class="button" onclick="loadData()">Load Some JSON from a server</button>
+    <ul class='templist'></ul>
   </div>
   <script>
+    function loadData() {
+      console.log('fetch'); // confirm code is running on click
+      fetch('/allEstablishments')
+        .then(res => res.json())
+        .then(res => {
+          var string = '';
+          //console.log(res); // logging step to check what we got
+          var d = res.data;
+          for (i in d) {
+            let t = d[i]
+            //console.log(res[i]);
+            string += '<li>'+t.establishment_id+', '+t.name+'</li>';
+          }
+          document.querySelector(".templist").innerHTML = '<ol>'+string+'</ol>';
+          return res;
+        });
+    }
+
     function logData(){
       fetch('/allEstablishments')
          .then(res => {
