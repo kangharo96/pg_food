@@ -17,11 +17,7 @@ body {
   color: white;
 }
 
-.topbar .barright a.home:link:active, a.home:visited:active {
-  background-color: rgb(57,99,98);
-}
-
-.topbar .barright a:link:active {
+.topbar .barright a.active {
   background-color: black;
 }
 
