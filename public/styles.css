@@ -37,9 +37,15 @@ body {
 
 .content {
   background-color: rgb(223,205,195);
-  width: 50%;
   text-align: center;
-  margin: 0 auto;
-  clear: both;
   height: 100vh;
+}
+
+.search-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+.search-container input[type=text] {
+  text-align: center;
 }
