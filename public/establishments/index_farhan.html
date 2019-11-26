@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Our Project Website</title>
+  <link rel="stylesheet" type="text/css" href="../../css/styles.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+  <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+</head>
+
+<body onload="logData()">
+  <div class='topbar'>
+    <a href='../index.html' class='home'>PG FOODS</a>
+    <div class = 'barright'>
+      <a href='../about/index.html'>About</a>
+      <a href='#'>Establishments</a>
+      <a href='../statistics/index.html'>Statistics</a>
+      <a href='../faqs/index.html'>FAQs</a>
+    </div>
+  </div>
+  <div class='head'>
+    <h1>Establishments</h1>
+  </div>
+  <div class='content'>
+   <table id="establishments" class="display">
+        <thead>
+            <tr>
+                <th>Establishment ID</th>
+                <th>Name</th>
+                <th>Owner</th>
+                <th>Category</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Inspection Date</th>
+                <th>Inspection Type </th>
+                <th>Inspection Results </th>
+          
+            </tr>
+        </thead>
+    </table>
+  </div>
+
+ <script>
+    function logData(){
+     
+            $('#establishments').dataTable({
+              ajax:'/establishments',
+              processing: true,
+              language: {
+              'loadingRecords': '&nbsp;',
+              'processing': 'Loading...'
+                } ,       
+              columns: [
+                { data: "establishment_id"},
+                { data: "name"},
+                { data: "owner"},
+                { data: "category"},
+                { data: "city"},
+                { data: "state"},
+                { data: "inspection_date"},
+                { data: "inspection_type"},
+                { data: "inspection_results"},
+
+              ]
+          });
+         }
+  </script>
+</body>
+
+
+</html>
