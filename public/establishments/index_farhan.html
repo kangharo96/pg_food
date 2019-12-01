@@ -34,7 +34,7 @@
                 <th>Inspection Date</th>
                 <th>Inspection Type </th>
                 <th>Inspection Results </th>
-          
+
             </tr>
         </thead>
     </table>
@@ -42,14 +42,14 @@
 
  <script>
     function logData(){
-     
+
             $('#establishments').dataTable({
-              ajax:'/establishments',
+              ajax:'/allEstablishments',
               processing: true,
               language: {
               'loadingRecords': '&nbsp;',
               'processing': 'Loading...'
-                } ,       
+                } ,
               columns: [
                 { data: "establishment_id"},
                 { data: "name"},
