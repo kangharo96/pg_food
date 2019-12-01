@@ -3,7 +3,7 @@ const fetch = require('node-fetch');
 const bodyParser = require('body-parser');
 
 const app = express();
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 3000;
 const appToken = "T4fTY4mWpk91TTTOVWnEPNaI4";
 
 app.use(express.urlencoded({ extended: true }));
