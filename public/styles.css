@@ -17,28 +17,35 @@ body {
   color: white;
 }
 
-.topbar .barright a.active {
+.barright {
+  margin-right: 10%
+}
+
+.barright a.active {
   background-color: black;
 }
 
 .head {
   background-color: white;
-  padding: 1em;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-.head {
   margin: auto;
-  padding: 0;
-  padding-bottom: 0.5em;
-  margin-bottom: 0.5em;
+}
+
+#tab {
+  border: 1px solid black;
+  background-color: rgb(227,176,75);
 }
 
 .content {
   background-color: rgb(223,205,195);
   text-align: center;
   height: 100vh;
+}
+
+.wrapper {
+  margin: 0 10%;
 }
 
 .search-container {
