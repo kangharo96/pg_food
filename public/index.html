@@ -2,7 +2,10 @@
 <html>
 <head>
   <title>Our Project Website</title>
-  <link rel="stylesheet" type="text/css" href="styles.css">
+  <link rel="stylesheet" type="text/css" href="styles.css"> 
+  <link rel="stylesheet" type="text/css" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css"/>
+  <script type='text/javascript' src='//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js'></script>
+  <script type='text/javascript' src='http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js'></script>
 </head>
 
 <body onload="logData()">
@@ -15,17 +18,31 @@
       <a href='./faqs/'>FAQs</a>
     </div>
   </div>
+
   <div class='head'>
     <h1>PG Foods</h1>
     <em>Dedicated to encouraging informed Prince George's county food decisions</em>
+    <br>
   </div>
+
+  <br>
   <div class='content'>
-    <div class='search-container'>
+    <div class='wrapper'>
+      <br>
+      <div class='search-container'>
         <input type='text' placeholder='search' name='search'>
         <button type="submit"><i class="fa fa-search"></i></button>
+      </div>
+
+      <br>
+      <div id='tab'>Establishments</div>
+      <div id="map" style="height: 440px; border: 1px solid #AAA;"></div>
+      <script type='text/javascript' src='markers.json'></script>
+      <script type='text/javascript' src='leaf-demo.js'></script>
+
+      <button class="button" onclick="loadData()">Load Some JSON from a server</button>
+      <ul class='templist'></ul>
     </div>
-    <button class="button" onclick="loadData()">Load Some JSON from a server</button>
-    <ul class='templist'></ul>
   </div>
   <script>
     function loadData() {
@@ -48,17 +65,13 @@
 
     function logData(){
       fetch('/allEstablishments')
-         .then(res => {
+        .then(res => {
           console.log(res.status);
           return res.json();
-         })
-         .then(res => {
-           console.log(res); // logging step to check what we got
-           return res;
-         })
-         .catch((err) => {
-           console.log(err);
-         });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   </script>
 </body>
