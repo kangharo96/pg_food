@@ -3,7 +3,7 @@ const fetch = require('node-fetch');
 const bodyParser = require('body-parser');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 const appToken = "T4fTY4mWpk91TTTOVWnEPNaI4";
 
 app.use(express.urlencoded({ extended: true }));
@@ -27,7 +27,6 @@ app.get('/allEstablishments', (req, res) => {
   const baseURL = 'https://data.princegeorgescountymd.gov/resource/umjn-t2iz.json?$'+
   'query=SELECT * ' +
   'ORDER BY establishment_id ASC, inspection_date DESC ' +
-  'LIMIT 50000&' + '$$app_token=' + appToken;
 
   fetch(baseURL)
     .then((r) => r.json())
@@ -40,9 +39,9 @@ app.get('/allEstablishments', (req, res) => {
       */
       let dataDistinct = [];
       let previousId = 0;
-      for(row = 0; row < data.length; row++){
+      for(row = 0; row < data.length; row++) {
         let currId = parseInt(data[row]["establishment_id"], 10);
-        if(data[row]["establishment_id"] > previousId){
+        if (data[row]["establishment_id"] > previousId) {
           previousId = currId;
           dataDistinct.push(data[row]);
         }
