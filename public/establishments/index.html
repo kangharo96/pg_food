@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Our Project Website</title>
+  <title>PG Foods | Establishments</title>
   <link rel="stylesheet" type="text/css" href="../styles.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+  <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 </head>
 
 <body onload="logData()">
@@ -19,14 +22,44 @@
     <h1>Establishments</h1>
   </div>
   <div class='content'>
-    <p>A</p>
+    <table id="establishments" class="display">
+      <thead>
+        <tr>
+          <th>Establishment ID</th>
+          <th>Name</th>
+          <th>Owner</th>
+          <th>Category</th>
+          <th>City</th>
+          <th>State</th>
+          <th>Inspection Date</th>
+          <th>Inspection Type </th>
+          <th>Inspection Results </th>
+      
+        </tr>
+      </thead>
+    </table>
   </div>
   <script>
     function logData(){
-      fetch('/establishment')
-        .then(res => {
-          console.log(res.json());
-        });
+      $('#establishments').dataTable({
+        ajax:'/allEstablishments',
+        processing: true,
+        language: {
+          'loadingRecords': '&nbsp;',
+          'processing': 'Loading...'
+        },
+        columns: [
+          { data: "establishment_id"},
+          { data: "name"},
+          { data: "owner"},
+          { data: "category"},
+          { data: "city"},
+          { data: "state"},
+          { data: "inspection_date"},
+          { data: "inspection_type"},
+          { data: "inspection_results"},
+        ]
+      });
     }
     function testSession(){
       fetch('/sessionId')

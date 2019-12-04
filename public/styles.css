@@ -43,6 +43,34 @@ body {
   text-align: center;
   height: 100vh;
 }
+.content p {
+  text-align: left;
+}
+
+.content .itembox {
+  background: white;
+}
+.content .itembox a {
+  text-align: left;
+}
+.content .itembox .itemname {
+  margin: 2%;
+}
+.content .itembox .iteminfo {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+}
+
+/* .svg-icon {
+  background: white;
+  width: 25px;
+  height: 25px;
+} */
+
+.flex_list {
+  text-align: left;
+}
 
 .wrapper {
   margin: 0 10%;
@@ -55,4 +83,41 @@ body {
 }
 .search-container input[type=text] {
   text-align: center;
+}
+
+.accordian {
+  background-color: #eee;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 14px;
+  transition: .4s;
+}
+
+.active, .accordion:hover {
+  background-color: #ccc;
+}
+
+.accordion:after {
+  content: '\002B';
+  color: #777;
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
+}
+
+.active:after {
+  content: "\2212";
+}
+
+.panel {
+  padding: 0 18px;
+  display: none;
+  background-color: #fff;
+  overflow: hidden;
+  transition: max-height .2 ease-out;
 }

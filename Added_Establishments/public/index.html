@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Our Project Website</title>
+  <link rel="stylesheet" type="text/css" href="./css/styles.css">
+  <script type='text/javascript' src='//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js'></script>
+   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+  <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+</head>
+
+<body onload="loadData()">
+  <div class='topbar'>
+    <a href='#' class='home'>PG FOODS</a>
+    <div class = 'barright'>
+      <a href='./html/about/index.html'>About</a>
+      <a href='./html/establishments/index.html'>Establishments</a>
+      <a href='./html/statistics/index.html'>Statistics</a>
+      <a href='./html/faqs/index.html'>FAQs</a>
+    </div>
+  </div>
+  <div class='head'>
+    <h1>PG Foods</h1>
+    <em>Dedicated to encouraging informed Prince George's county food decisions</em>
+    <br>
+  </div>
+
+  <br>
+  <div class='content'>
+    <div class='wrapper'>
+      <h1>Establishment Inspection Summary </h1>
+     <table id="establishments" class="display">
+        <thead>
+            <tr>
+                <th>Establishment ID</th>
+                <th> Name</th>
+                <th> Inspection Count</th>
+          
+            </tr>
+        </thead>
+    </table>
+    </div>
+  </div>
+  <script>
+    function loadData() {
+      fetch('/establishmentSummary')
+        .then(res => res.json())
+        .then(res => {
+          $('#establishments').dataTable({
+              ajax:'/establishmentSummary',
+              pageLength: 50,
+              processing: true,
+              order: [[ 2, 'desc' ]],
+              language: {
+              'loadingRecords': '&nbsp;',
+              'processing': 'Loading...'
+                } ,       
+              columns: [
+                { data: "Establishment_id",
+                "render": function(data, type, row, meta){
+                            if(type === 'display'){
+                                data = '<a href="/html/establishments/index.html?e_id=' + data + '">' + data + '</a>';
+                            }
+                            
+                            return data;
+                         }
+                },
+                { data: "name"},
+                { data: "inspection_count"}
+
+              ]
+          });
+        });
+    }
+
+  </script>
+</body>
+</html>
