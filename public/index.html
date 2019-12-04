@@ -56,7 +56,7 @@
           let d = res.data;
           for (let i = 0; i < 10; i++) {
             let t = d[i];
-            string += '<div class="itembox"><a href="javascript:establishmentClick('+t.name+')"><h1 class="itemname">'+t.name+'</h1></a><div class="iteminfo"><p>Inspection Status:<br>'+t.inspection_results+'</p><p>Address:<br>'+t.address_line_1+',<br>'+t.city+', '+t.state+' '+t.zip+'</p></div></div>';
+            string += '<div class="itembox"><a href="javascript:establishmentClick('+t.establishment_id+')"><h1 class="itemname">'+t.name+'</h1></a><div class="iteminfo"><p>Inspection Status:<br>'+t.inspection_results+'</p><p>Address:<br>'+t.address_line_1+',<br>'+t.city+', '+t.state+' '+t.zip+'</p></div></div>';
           }
           document.querySelector(".templist").innerHTML = string;
           return res;
