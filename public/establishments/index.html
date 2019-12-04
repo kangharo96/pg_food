@@ -5,7 +5,7 @@
   <link rel="stylesheet" type="text/css" href="../styles.css">
 </head>
 
-<body>
+<body onload="logData()">
   <div class='topbar'>
     <a href='../'>PG FOODS</a>
     <div class = 'barright'>
@@ -21,5 +21,20 @@
   <div class='content'>
     <p>A</p>
   </div>
+  <script>
+    function logData(){
+      fetch('/establishment')
+        .then(res => {
+          console.log(res.json());
+        });
+    }
+    function testSession(){
+      fetch('/sessionId')
+        .then(res => {
+          console.log(res.status);
+          return res.json();
+        });
+    }
+  </script>
 </body>
 </html>

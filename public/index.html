@@ -56,13 +56,27 @@
           for (i in d) {
             let t = d[i];
             //console.log(res[i]);
-            string += '<li>'+t.establishment_id+', '+t.name+'</li>';
+            string += '<li>'+t.establishment_id+', <a onClick=establishmentClick(\'' + t.establishment_id + '\')>'+t.name+'</a></li>';
           }
           document.querySelector(".templist").innerHTML = '<ol>'+string+'</ol>';
           return res;
         });
     }
 
+    function establishmentClick(id){
+      fetch('/establishmentId', {
+        method: 'post',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({establishmentId: id})
+      })
+        .then(res => {
+          console.log(res.status);
+          window.location.replace('http://localhost:8080/establishments/');
+        });
+    }
     function logData(){
       fetch('/allEstablishments')
         .then(res => {
@@ -71,6 +85,20 @@
         })
         .catch((err) => {
           console.log(err);
+        });
+    }
+    function testPost(){
+      fetch('/establishmentId', {
+        method: 'post',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({id: '1'})
+      })
+        .then(res => {
+          console.log(res.status);
+          return res.json();
         });
     }
   </script>
