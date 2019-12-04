@@ -27,6 +27,7 @@ app.get('/allEstablishments', (req, res) => {
   const baseURL = 'https://data.princegeorgescountymd.gov/resource/umjn-t2iz.json?$'+
   'query=SELECT * ' +
   'ORDER BY establishment_id ASC, inspection_date DESC ' +
+  'LIMIT 5000&' + '$$app_token=' + appToken;
 
   fetch(baseURL)
     .then((r) => r.json())
