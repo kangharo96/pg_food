@@ -2,10 +2,10 @@
 <html>
 <head>
   <title>Our Project Website</title>
-  <link rel="stylesheet" type="text/css" href="styles.css"> 
-  <link rel="stylesheet" type="text/css" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css"/>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css"/>
   <script type='text/javascript' src='//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js'></script>
-  <script type='text/javascript' src='http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js'></script>
+  <script type='text/javascript' src='https://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js'></script>
 </head>
 
 <body onload="logData()">
@@ -56,21 +56,51 @@
           for (i in d) {
             let t = d[i];
             //console.log(res[i]);
-            string += '<li>'+t.establishment_id+', '+t.name+'</li>';
+            string += '<li>'+t.establishment_id+', <a onClick=establishmentClick(\'' + t.establishment_id + '\')>'+t.name+'</a></li>';
           }
           document.querySelector(".templist").innerHTML = '<ol>'+string+'</ol>';
           return res;
         });
     }
 
+    function establishmentClick(id){
+      fetch('/establishmentId', {
+        method: 'post',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({establishmentId: id})
+      })
+        .then(res => {
+          console.log(res.status);
+          window.location.href = 'http://localhost:8080/establishments/';
+          //window.location.href = 'https://pg-foods.herokuapp.com/establishments';
+        });
+    }
     function logData(){
       fetch('/allEstablishments')
         .then(res => {
           console.log(res.status);
+          console.log(res.json());
           return res.json();
         })
         .catch((err) => {
           console.log(err);
+        });
+    }
+    function testPost(){
+      fetch('/establishmentId', {
+        method: 'post',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({id: '1'})
+      })
+        .then(res => {
+          console.log(res.status);
+          return res.json();
         });
     }
   </script>
