@@ -1,0 +1,49 @@
+body {
+  background-color: rgb(57,99,98);
+  margin: 0;
+}
+
+.topbar {
+  padding: 0.5em;
+  background-color: rgb(57,99,98);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.topbar a {
+  padding: 16px;
+  text-decoration: none;
+  color: white;
+}
+
+.topbar .barright a.home:link:active, a.home:visited:active {
+  background-color: rgb(57,99,98);
+}
+
+.topbar .barright a:link:active {
+  background-color: black;
+}
+
+.head {
+  background-color: white;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.head {
+  margin: auto;
+  padding: 0;
+  padding-bottom: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.content {
+  background-color: rgb(223,205,195);
+  width: 100%;
+  text-align: center;
+  margin: 0 auto;
+  clear: both;
+  height: 100vh;
+}
