@@ -43,6 +43,13 @@ body {
   text-align: center;
   height: 100vh;
 }
+.content p {
+  text-align: left;
+}
+
+.flex_list {
+  text-align: left;
+}
 
 .wrapper {
   margin: 0 10%;
