@@ -17,42 +17,33 @@ body {
   color: white;
 }
 
-.barright {
-  margin-right: 10%
+.topbar .barright a.home:link:active, a.home:visited:active {
+  background-color: rgb(57,99,98);
 }
 
-.barright a.active {
+.topbar .barright a:link:active {
   background-color: black;
 }
 
 .head {
   background-color: white;
+  padding: 1em;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: auto;
 }
-
-#tab {
-  border: 1px solid black;
-  background-color: rgb(227,176,75);
+.head {
+  margin: auto;
+  padding: 0;
+  padding-bottom: 0.5em;
+  margin-bottom: 0.5em;
 }
 
 .content {
   background-color: rgb(223,205,195);
+  width: 100%;
   text-align: center;
+  margin: 0 auto;
+  clear: both;
   height: 100vh;
-}
-
-.wrapper {
-  margin: 0 10%;
-}
-
-.search-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-}
-.search-container input[type=text] {
-  text-align: center;
 }
