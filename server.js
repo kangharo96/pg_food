@@ -13,6 +13,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
 let distinctEstablishments = [];
+let currentDisplayed = [];
 
 app.use(session({
   genid: (req) => {
@@ -36,9 +37,10 @@ app.get('/allEstablishments', (req, res) => {
     inspection_date. Limit will need to change so that we can paginate data
     apiToken comes from my personal developer account with SODA.
   */
+  req.session.pageNum = 1;
   if(req.session.establishmentId != null){
     console.log("From Server");
-    res.send({data: distinctEstablishments});
+    res.send({data: currentDisplayed});
   }
   else{
     req.session.establishmentId = 0;
@@ -68,7 +70,10 @@ app.get('/allEstablishments', (req, res) => {
         }
         console.log(dataDistinct);
         distinctEstablishments = dataDistinct;
-        res.send({ data: dataDistinct });
+        // only show first 10, .slice() is noninclusive of end int
+        let firstTen = dataDistinct.slice(0, 10);
+        currentDisplayed = firstTen;
+        res.send({ data: currentDisplayed });
       })
       .catch((err) => {
         console.log(err);
@@ -116,5 +121,10 @@ app.post('/establishmentId', (req, res) => {
   req.session.establishmentId = req.body.establishmentId;
   res.send({url: 'https://localhost:8080/establisments/'});
 });
+
+// app.post('/search', (req, res) =>{
+//   let query = req.body.query;
+//   for
+// })
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
