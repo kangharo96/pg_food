@@ -12,6 +12,8 @@ app.use(express.static('public'));
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
+let distinctEstablishments = [];
+
 app.use(session({
   genid: (req) => {
     //console.log('Inside the session middleware')
@@ -34,44 +36,45 @@ app.get('/allEstablishments', (req, res) => {
     inspection_date. Limit will need to change so that we can paginate data
     apiToken comes from my personal developer account with SODA.
   */
-  // returning user
-  // if(req.session.hasVisited !== 0){
-  //
-  // }
-  // req.session.hasVisited = 0;
-  // req.session.establishmentId = 0;
-  console.log('TESTING: ' + req.session.establishmentId)
-  const baseURL = 'https://data.princegeorgescountymd.gov/resource/umjn-t2iz.json?$'+
-  'query=SELECT * ' +
-  'ORDER BY establishment_id ASC, inspection_date DESC ' +
-  'LIMIT 50000&' + '$$app_token=' + appToken;
+  if(req.session.establishmentId != null){
+    console.log("From Server");
+    res.send({data: distinctEstablishments});
+  }
+  else{
+    req.session.establishmentId = 0;
+    console.log('TESTING: ' + req.session.establishmentId)
+    const baseURL = 'https://data.princegeorgescountymd.gov/resource/umjn-t2iz.json?$'+
+    'query=SELECT * ' +
+    'ORDER BY establishment_id ASC, inspection_date DESC ' +
+    'LIMIT 50000&' + '$$app_token=' + appToken;
 
-  fetch(baseURL)
-    .then((r) => r.json())
-    .then((data) => {
-      /*
-        ~11/20/19 Colin Hambright~
-        Grab the first instance of a establishment and add it to a new array.
-        This relies on the url query ordering the establishments by their IDs..
-        and by their inspection dates.
-      */
-      let dataDistinct = [];
-      let previousId = 0;
-      for(row = 0; row < data.length; row++) {
-        let currId = parseInt(data[row]["establishment_id"], 10);
-        if (data[row]["establishment_id"] > previousId) {
-          previousId = currId;
-          dataDistinct.push(data[row]);
+    fetch(baseURL)
+      .then((r) => r.json())
+      .then((data) => {
+        /*
+          ~11/20/19 Colin Hambright~
+          Grab the first instance of a establishment and add it to a new array.
+          This relies on the url query ordering the establishments by their IDs..
+          and by their inspection dates.
+        */
+        let dataDistinct = [];
+        let previousId = 0;
+        for(row = 0; row < data.length; row++) {
+          let currId = parseInt(data[row]["establishment_id"], 10);
+          if (data[row]["establishment_id"] > previousId) {
+            previousId = currId;
+            dataDistinct.push(data[row]);
+          }
         }
-      }
-      console.log(dataDistinct);
-      res.send({ data: dataDistinct });
-    })
-    .catch((err) => {
-      console.log(err);
-      //res.redirect('/error');
-    });
-
+        console.log(dataDistinct);
+        distinctEstablishments = dataDistinct;
+        res.send({ data: dataDistinct });
+      })
+      .catch((err) => {
+        console.log(err);
+        //res.redirect('/error');
+      });
+  }
 });
 
 /*
@@ -96,7 +99,6 @@ app.get('/establishment', (req, res) => {
       console.log(err);
       //res.redirect('/error');
     });
-
 });
 
 /* gets the currently stored establishment id

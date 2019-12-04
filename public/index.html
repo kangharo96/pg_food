@@ -74,13 +74,15 @@
       })
         .then(res => {
           console.log(res.status);
-          window.location.replace('http://localhost:8080/establishments/');
+          window.location.href = 'http://localhost:8080/establishments/';
+          //window.location.href = 'https://pg-foods.herokuapp.com/establishments';
         });
     }
     function logData(){
       fetch('/allEstablishments')
         .then(res => {
           console.log(res.status);
+          console.log(res.json());
           return res.json();
         })
         .catch((err) => {
