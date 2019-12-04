@@ -43,38 +43,22 @@
       <script type='text/javascript' src='leaf-demo.js'></script>
 
       <button class="button" onclick="loadData()">Load Some JSON from a server</button>
-      <ul class='templist'></ul>
-      <div class='itembox'>
-        <a href='#'><h1 class='itemname'>CP Liquors</h1></a>
-        <div class='iteminfo'>
-          <p>
-            Inspection Status:
-            <br>HEALTH RISK
-          </p>
-          <p>
-            Address:
-            <br>8147 Baltimore Ave #2492,
-            <br>College Park, MD 20740
-          </p>
-        </div>
-      </div>
+      <div class='templist'></div>
     </div>
   </div>
   <script>
     function loadData() {
-      console.log('fetch'); // confirm code is running on click
+      console.log('fetch');
       fetch('/allEstablishments')
         .then(res => res.json())
         .then(res => {
-          var string = '';
-          //console.log(res); // logging step to check what we got
-          var d = res.data;
-          for (i in d) {
+          let string = '';
+          let d = res.data;
+          for (let i = 0; i < 10; i++) {
             let t = d[i];
-            //console.log(res[i]);
-            string += '<li>'+t.establishment_id+', <a onClick=establishmentClick(\'' + t.establishment_id + '\')>'+t.name+'</a></li>';
+            string += '<div class="itembox"><a href="javascript:establishmentClick('+t.name+')"><h1 class="itemname">'+t.name+'</h1></a><div class="iteminfo"><p>Inspection Status:<br>'+t.inspection_results+'</p><p>Address:<br>'+t.address_line_1+',<br>'+t.city+', '+t.state+' '+t.zip+'</p></div></div>';
           }
-          document.querySelector(".templist").innerHTML = '<ol>'+string+'</ol>';
+          document.querySelector(".templist").innerHTML = string;
           return res;
         });
     }
@@ -90,7 +74,7 @@
       })
         .then(res => {
           console.log(res.status);
-          window.location.href = 'http://localhost:8080/establishments/';
+          window.location.href = './establishments/';
           //window.location.href = 'https://pg-foods.herokuapp.com/establishments';
         });
     }
