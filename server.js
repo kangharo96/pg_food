@@ -71,7 +71,7 @@ app.get('/allEstablishments', (req, res) => {
             dataDistinct.push(data[row]);
           }
         }
-        console.log(dataDistinct);
+        console.log(dataDistinct.length);
         distinctEstablishments = dataDistinct;
         // only show first 10, .slice() is noninclusive of end int
         // let firstTen = JSON.parse(JSON.stringify(dataDistinct.slice(0, 10)));
@@ -134,11 +134,18 @@ used for the map to match the data.
 */
 app.put('/changePage', (req, res) => {
   if(req.body.direction === 'next'){
-    req.session.pageNum = req.session.pageNum + 1;
-    let nextPage = distinctEstablishments.slice(req.session.pageNum * 10, (req.session.pageNum + 2) * 10);
-    currentDisplayed = nextPage;
-    // req.session.pageNum = req.session.pageNum + 1;
-    res.send({ data: nextPage});
+    if(req.session.pageNum >= Math.floor(distinctEstablishments.length / 10)){
+      res.send({ data: currentDisplayed});
+      console.log("HERE");
+    }
+    else{
+      req.session.pageNum = req.session.pageNum + 1;
+      let nextPage = distinctEstablishments.slice(req.session.pageNum * 10, (req.session.pageNum + 1) * 10);
+      currentDisplayed = nextPage;
+      // req.session.pageNum = req.session.pageNum + 1;
+      console.log(req.session.pageNum);
+      res.send({ data: nextPage});
+    }
   }
   else{
     if(req.session.pageNum === 0){
