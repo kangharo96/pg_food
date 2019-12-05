@@ -22,7 +22,7 @@
     <h1>Establishments</h1>
   </div>
   <div class='content'>
-    <table id="establishments" class="display">
+    <!-- <table id="establishments" class="display">
       <thead>
         <tr>
           <th>Establishment ID</th>
@@ -34,33 +34,39 @@
           <th>Inspection Date</th>
           <th>Inspection Type </th>
           <th>Inspection Results </th>
-      
+
         </tr>
       </thead>
-    </table>
+    </table> -->
   </div>
   <script>
     function logData(){
-      $('#establishments').dataTable({
-        ajax:'/allEstablishments',
-        processing: true,
-        language: {
-          'loadingRecords': '&nbsp;',
-          'processing': 'Loading...'
-        },
-        columns: [
-          { data: "establishment_id"},
-          { data: "name"},
-          { data: "owner"},
-          { data: "category"},
-          { data: "city"},
-          { data: "state"},
-          { data: "inspection_date"},
-          { data: "inspection_type"},
-          { data: "inspection_results"},
-        ]
-      });
+      fetch('/establishment')
+        .then(res => {
+          console.log(res.json());
+        });
     }
+   //  function logData(){
+   //   $('#establishments').dataTable({
+   //     ajax:'/allEstablishments',
+   //     processing: true,
+   //     language: {
+   //       'loadingRecords': '&nbsp;',
+   //       'processing': 'Loading...'
+   //     },
+   //     columns: [
+   //       { data: "establishment_id"},
+   //       { data: "name"},
+   //       { data: "owner"},
+   //       { data: "category"},
+   //       { data: "city"},
+   //       { data: "state"},
+   //       { data: "inspection_date"},
+   //       { data: "inspection_type"},
+   //       { data: "inspection_results"},
+   //     ]
+   //   });
+   // }
     function testSession(){
       fetch('/sessionId')
         .then(res => {
