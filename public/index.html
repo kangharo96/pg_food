@@ -43,10 +43,7 @@
       <script type='text/javascript' src='leaf-demo.js'></script>
 
       <button class="button" onclick="loadData()">Load Some JSON from a server</button>
-      <div class="pagination">
-        <a href="javascript:changePage('previous')">❮</a>
-        <a href="javascript:changePage('next')">❯</a>
-      </div>
+
       <div class='templist'></div>
     </div>
   </div>
@@ -68,7 +65,10 @@
     on server now.
     */
     function populateList(data){
-      let string = '';
+      let string = '<div class="pagination">'+
+              '<a href="javascript:changePage(\'previous\')">❮</a>'+
+              '<a href="javascript:changePage(\'next\')">❯</a>'+
+            '</div>';
       for (let i = 0; i < data.length; i++) {
         let t = data[i];
         string += '<div class="itembox"><a href="javascript:establishmentClick('+t.establishment_id+')"><h1 class="itemname">'+t.name+'</h1></a><div class="iteminfo"><p>Inspection Status:<br>'+t.inspection_results+'</p><p>Address:<br>'+t.address_line_1+',<br>'+t.city+', '+t.state+' '+t.zip+'</p></div></div>';
