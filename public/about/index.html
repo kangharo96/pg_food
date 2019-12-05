@@ -34,7 +34,31 @@
         We have constructed this information in a user friendly design that any one can use!
       </p>
       <h3>Meet the Team:</h3>
-      <p>
+      <button class="accordion">Colin Hambright</button>
+      <div class="panel">
+        <p>Head Programmer and Designer</p>
+      </div>
+      <button class="accordion">Harrison Kang Jr.</button>
+      <div class="panel">
+        <p>Head Programmer and Designer</p>
+      </div>
+      <button class="accordion">Kevin Nam</button>
+      <div class="panel">
+        <p>Project Manager and Documentor</p>
+      </div>
+      <button class="accordion">Eual Tsigie</button>
+      <div class="panel">
+        <p>Data Analyst and Documentor</p>
+      </div>
+      <button class="accordion">Anthony Ross</button>
+      <div class="panel">
+        <p>Data Visualizer and Documentor</p>
+      </div>
+      <button class="accordion">Farhan Ahmed</button>
+      <div class="panel">
+        <p>Programmer</p>
+      </div>
+     <!-- <p>
         <ul class="list">
           <li class="flex_list">Colin Hambright</li>
           <li class="flex_list">Kevin Nam</li>
@@ -43,9 +67,26 @@
           <li class="flex_list">Anthony Ross</li>
           <li class="flex_list">Farhan Ahmed</li>
         </ul>
-      </p>
+      </p><-->
     </div>
   </div>
 </body>
+
+<script>
+var quest = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < quest.length; i++) {
+  quest[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.maxHeight) {
+      panel.style.maxHeight = null;
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    } 
+  });
+}
+</script>
 
 </html>
