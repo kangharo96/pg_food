@@ -41,7 +41,7 @@ body {
 .content {
   background-color: rgb(223,205,195);
   text-align: center;
-  height: 100vh;
+  height: auto;
 }
 .content p {
   text-align: left;
@@ -60,6 +60,13 @@ body {
   display: flex;
   justify-content: space-around;
   text-align: center;
+}
+
+.footer {
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: rgb(57,99,98);
 }
 
 /* .svg-icon {
@@ -119,10 +126,6 @@ body {
   background-color: white;
   max-height: 0;
   overflow: hidden;
-<<<<<<< HEAD
-  transition: max-height 0.2s ease-out;
-}
-=======
   transition: max-height .2 ease-out;
 }
 
@@ -148,4 +151,3 @@ body {
 }
 
 .pagination a:hover:not(.active) {background-color: #ddd;}
->>>>>>> 600150d9136d9cf0fdf774284c9a4296a49137fc
