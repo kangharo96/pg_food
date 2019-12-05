@@ -43,6 +43,10 @@
       <script type='text/javascript' src='leaf-demo.js'></script>
 
       <button class="button" onclick="loadData()">Load Some JSON from a server</button>
+      <div class="pagination">
+        <a href="javascript:changePage('previous')">❮</a>
+        <a href="javascript:changePage('next')">❯</a>
+      </div>
       <div class='templist'></div>
     </div>
   </div>
@@ -52,15 +56,24 @@
       fetch('/allEstablishments')
         .then(res => res.json())
         .then(res => {
-          let string = '';
           let d = res.data;
-          for (let i = 0; i < 10; i++) {
-            let t = d[i];
-            string += '<div class="itembox"><a href="javascript:establishmentClick('+t.establishment_id+')"><h1 class="itemname">'+t.name+'</h1></a><div class="iteminfo"><p>Inspection Status:<br>'+t.inspection_results+'</p><p>Address:<br>'+t.address_line_1+',<br>'+t.city+', '+t.state+' '+t.zip+'</p></div></div>';
-          }
-          document.querySelector(".templist").innerHTML = string;
+          populateList(d);
           return res;
         });
+    }
+    /*
+    Colin 12/4/19
+    Split this into a helper function since I reuse it in changePage function
+    also changed to just be data.length since 10 establishment limit is handled
+    on server now.
+    */
+    function populateList(data){
+      let string = '';
+      for (let i = 0; i < data.length; i++) {
+        let t = data[i];
+        string += '<div class="itembox"><a href="javascript:establishmentClick('+t.establishment_id+')"><h1 class="itemname">'+t.name+'</h1></a><div class="iteminfo"><p>Inspection Status:<br>'+t.inspection_results+'</p><p>Address:<br>'+t.address_line_1+',<br>'+t.city+', '+t.state+' '+t.zip+'</p></div></div>';
+      }
+      document.querySelector(".templist").innerHTML = string;
     }
 
     function establishmentClick(id){
@@ -101,6 +114,21 @@
         .then(res => {
           console.log(res.status);
           return res.json();
+        });
+    }
+    function changePage(directions){
+      fetch('/changePage', {
+        method: 'put',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({direction: directions})
+      })
+        .then(res => res.json())
+        .then(res => {
+          populateList(res.data)
+          return res.data;
         });
     }
   </script>

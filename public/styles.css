@@ -121,3 +121,26 @@ body {
   overflow: hidden;
   transition: max-height .2 ease-out;
 }
+
+.pagination {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+  transition: background-color .3s;
+  border: 1px solid #ddd;
+}
+
+.pagination a.active {
+  background-color: #4CAF50;
+  color: white;
+  border: 1px solid #4CAF50;
+}
+
+.pagination a:hover:not(.active) {background-color: #ddd;}
