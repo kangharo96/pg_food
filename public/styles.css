@@ -64,7 +64,7 @@ body {
   text-align: center;
 }
 
-.accordian {
+.accordion {
   background-color: #eee;
   color: #444;
   cursor: pointer;
@@ -73,8 +73,8 @@ body {
   border: none;
   text-align: left;
   outline: none;
-  font-size: 14px;
-  transition: .4s;
+  font-size: 15px;
+  transition: 0.4s;
 }
 
 .active, .accordion:hover {
@@ -95,8 +95,8 @@ body {
 
 .panel {
   padding: 0 18px;
-  display: none;
-  background-color: #fff;
+  background-color: white;
+  max-height: 0;
   overflow: hidden;
-  transition: max-height .2 ease-out;
+  transition: max-height 0.2s ease-out;
 }
