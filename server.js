@@ -13,6 +13,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
 let distinctEstablishments = [];
+let currentDisplayed = [];
 
 app.use(session({
   genid: (req) => {
@@ -36,9 +37,13 @@ app.get('/allEstablishments', (req, res) => {
     inspection_date. Limit will need to change so that we can paginate data
     apiToken comes from my personal developer account with SODA.
   */
+  req.session.pageNum = 0;
   if(req.session.establishmentId != null){
     console.log("From Server");
-    res.send({data: distinctEstablishments});
+    // let firstTen = JSON.parse(JSON.stringify(distinctEstablishments.slice(0, 10)));
+    let firstTen = distinctEstablishments.slice(0, 10);
+    currentDisplayed = firstTen;
+    res.send({data: currentDisplayed});
   }
   else{
     req.session.establishmentId = 0;
@@ -68,7 +73,11 @@ app.get('/allEstablishments', (req, res) => {
         }
         console.log(dataDistinct);
         distinctEstablishments = dataDistinct;
-        res.send({ data: dataDistinct });
+        // only show first 10, .slice() is noninclusive of end int
+        // let firstTen = JSON.parse(JSON.stringify(dataDistinct.slice(0, 10)));
+        let firstTen = dataDistinct.slice(0, 10);
+        currentDisplayed = firstTen;
+        res.send({ data: currentDisplayed});
       })
       .catch((err) => {
         console.log(err);
@@ -116,5 +125,37 @@ app.post('/establishmentId', (req, res) => {
   req.session.establishmentId = req.body.establishmentId;
   res.send({url: 'https://localhost:8080/establisments/'});
 });
+
+/*
+Colin 12/4/19
+used to paginate between establishements.
+Current page's data is stored in the currentDisplayed array, which then can be
+used for the map to match the data.
+*/
+app.put('/changePage', (req, res) => {
+  if(req.body.direction === 'next'){
+    req.session.pageNum = req.session.pageNum + 1;
+    let nextPage = distinctEstablishments.slice(req.session.pageNum * 10, (req.session.pageNum + 2) * 10);
+    currentDisplayed = nextPage;
+    // req.session.pageNum = req.session.pageNum + 1;
+    res.send({ data: nextPage});
+  }
+  else{
+    if(req.session.pageNum === 0){
+      res.send({ data: currentDisplayed});
+    }
+    else{
+      req.session.pageNum = req.session.pageNum - 1;
+      let previousPage = distinctEstablishments.slice(req.session.pageNum * 10, (req.session.pageNum + 1) * 10);
+      currentDisplayed = previousPage;
+      res.send({ data: previousPage});
+    }
+  }
+});
+
+// app.post('/search', (req, res) =>{
+//   let query = req.body.query;
+//   for
+// })
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

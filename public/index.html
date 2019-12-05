@@ -31,7 +31,9 @@
       <br>
       <div class='search-container'>
         <input type='text' placeholder='search' name='search'>
-        <button type="submit"><i class="fa fa-search"></i></button>
+       <!--  <svg class='svg-icon' focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+        </svg> -->
       </div>
 
       <br>
@@ -41,26 +43,37 @@
       <script type='text/javascript' src='leaf-demo.js'></script>
 
       <button class="button" onclick="loadData()">Load Some JSON from a server</button>
-      <ul class='templist'></ul>
+      <div class="pagination">
+        <a href="javascript:changePage('previous')">❮</a>
+        <a href="javascript:changePage('next')">❯</a>
+      </div>
+      <div class='templist'></div>
     </div>
   </div>
   <script>
     function loadData() {
-      console.log('fetch'); // confirm code is running on click
+      console.log('fetch');
       fetch('/allEstablishments')
         .then(res => res.json())
         .then(res => {
-          var string = '';
-          //console.log(res); // logging step to check what we got
-          var d = res.data;
-          for (i in d) {
-            let t = d[i];
-            //console.log(res[i]);
-            string += '<li>'+t.establishment_id+', <a onClick=establishmentClick(\'' + t.establishment_id + '\')>'+t.name+'</a></li>';
-          }
-          document.querySelector(".templist").innerHTML = '<ol>'+string+'</ol>';
+          let d = res.data;
+          populateList(d);
           return res;
         });
+    }
+    /*
+    Colin 12/4/19
+    Split this into a helper function since I reuse it in changePage function
+    also changed to just be data.length since 10 establishment limit is handled
+    on server now.
+    */
+    function populateList(data){
+      let string = '';
+      for (let i = 0; i < data.length; i++) {
+        let t = data[i];
+        string += '<div class="itembox"><a href="javascript:establishmentClick('+t.establishment_id+')"><h1 class="itemname">'+t.name+'</h1></a><div class="iteminfo"><p>Inspection Status:<br>'+t.inspection_results+'</p><p>Address:<br>'+t.address_line_1+',<br>'+t.city+', '+t.state+' '+t.zip+'</p></div></div>';
+      }
+      document.querySelector(".templist").innerHTML = string;
     }
 
     function establishmentClick(id){
@@ -74,7 +87,7 @@
       })
         .then(res => {
           console.log(res.status);
-          window.location.href = 'http://localhost:8080/establishments/';
+          window.location.href = './establishments/';
           //window.location.href = 'https://pg-foods.herokuapp.com/establishments';
         });
     }
@@ -101,6 +114,21 @@
         .then(res => {
           console.log(res.status);
           return res.json();
+        });
+    }
+    function changePage(directions){
+      fetch('/changePage', {
+        method: 'put',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({direction: directions})
+      })
+        .then(res => res.json())
+        .then(res => {
+          populateList(res.data)
+          return res.data;
         });
     }
   </script>
