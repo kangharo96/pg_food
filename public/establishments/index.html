@@ -22,55 +22,72 @@
     <h1>Establishments</h1>
   </div>
   <div class='content'>
-    <!-- <table id="establishments" class="display">
+    <div class='selected'></div>
+    <table id="establishments" class="display">
       <thead>
         <tr>
-          <th>Establishment ID</th>
-          <th>Name</th>
-          <th>Owner</th>
-          <th>Category</th>
-          <th>City</th>
-          <th>State</th>
           <th>Inspection Date</th>
           <th>Inspection Type </th>
           <th>Inspection Results </th>
-
         </tr>
       </thead>
-    </table> -->
+    </table>
   </div>
     
   <div class='footer'>
     <p>Footer</p>
   </div>
   <script>
-    function logData(){
+    function logData() {
+      console.log('fetch');
       fetch('/establishment')
         .then(res => {
-          console.log(res.json());
+          console.log(res);
+          return res.json();
+        })
+        .then(res => {
+          console.log(res);
+          let string = '';
+          let d = res.data[0];
+          string += 'Name: ' + d.name + '<br>Owner: ' + d.owner + '<br>Address: <br>' + d.address_line_1;
+          if (d.address_line_2 !== '------') {
+            string += ' ' + d.address_line_2;
+          }
+          string += '<br>' + d.city + ', ' + d.state + ' ' + d.zip + '<br>Category: ' + d.category;
+          /* for (i in d) {
+            string += '<br>Date: '+d[i].inspection_date+'<br>Result: '+d[i].inspection_results;
+          } */
+          document.querySelector('.selected').innerHTML = string;
         });
+      $('#establishments').dataTable({
+        ajax:'/establishment',
+        processing: true,
+        language: {
+          'loadingRecords': '&nbsp;',
+          'processing': 'Loading...'
+        },
+        columns: [
+          { data: "inspection_date"},
+          { data: "inspection_type"},
+          { data: "inspection_results"},
+        ]
+      });
     }
-   //  function logData(){
-   //   $('#establishments').dataTable({
-   //     ajax:'/allEstablishments',
-   //     processing: true,
-   //     language: {
-   //       'loadingRecords': '&nbsp;',
-   //       'processing': 'Loading...'
-   //     },
-   //     columns: [
-   //       { data: "establishment_id"},
-   //       { data: "name"},
-   //       { data: "owner"},
-   //       { data: "category"},
-   //       { data: "city"},
-   //       { data: "state"},
-   //       { data: "inspection_date"},
-   //       { data: "inspection_type"},
-   //       { data: "inspection_results"},
-   //     ]
-   //   });
-   // }
+    /* function logData(){
+      $('#establishments').dataTable({
+        ajax:'/establishment',
+        processing: true,
+        language: {
+          'loadingRecords': '&nbsp;',
+          'processing': 'Loading...'
+        },
+        columns: [
+          { data: "inspection_date"},
+          { data: "inspection_type"},
+          { data: "inspection_results"},
+        ]
+      });
+    } */
     function testSession(){
       fetch('/sessionId')
         .then(res => {
