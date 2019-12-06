@@ -85,7 +85,11 @@
         let long = Number(t.geocoded_column_1.coordinates[0]);
         let lat = Number(t.geocoded_column_1.coordinates[1]);
         L.marker([lat, long]).bindPopup(t.name).addTo(layerGroup);
-        string += '<div class="itembox"><a href="javascript:establishmentClick('+t.establishment_id+')"><h1 class="itemname">'+t.name+'</h1></a><div class="iteminfo"><p>Inspection Status:<br>'+t.inspection_results+'</p><p>Address:<br>'+t.address_line_1+',<br>'+t.city+', '+t.state+' '+t.zip+'</p></div></div>';
+        string += '<div class="itembox"><a href="javascript:establishmentClick('+t.establishment_id+')"><h1 class="itemname">'+t.name+'</h1></a><div class="iteminfo"><p>Inspection Status:<br>'+t.inspection_results+'</p><p>Address:<br>'+t.address_line_1;
+        if (t.address_line_2 !== '------') {
+          string += ' ' + t.address_line_2;
+        }
+        string+=',<br>'+t.city+', '+t.state+' '+t.zip+'</p></div></div>';
       }
       document.querySelector(".templist").innerHTML = string;
     }
