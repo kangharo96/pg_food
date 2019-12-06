@@ -135,28 +135,27 @@ Current page's data is stored in the currentDisplayed array, which then can be
 used for the map to match the data.
 */
 app.put('/changePage', (req, res) => {
+  let currentPagedArray;
+
+  if(req.session.searched === 1){
+    currentPagedArray = searchedEstablishments;
+  }
+  else{
+    currentPagedArray = distinctEstablishments
+  }
+
   if(req.body.direction === 'next'){
-    if(req.session.pageNum >= Math.floor(distinctEstablishments.length / 10)){
+    if(req.session.pageNum >= Math.floor(currentPagedArray.length / 10)){
       res.send({ data: currentDisplayed});
       console.log("HERE");
     }
     else{
-      if(req.session.searched === 1){
-        req.session.pageNum = req.session.pageNum + 1;
-        let nextPage = searchedEstablishments.slice(req.session.pageNum * 10, (req.session.pageNum + 1) * 10);
-        currentDisplayed = nextPage;
-        // req.session.pageNum = req.session.pageNum + 1;
-        console.log(req.session.pageNum);
-        res.send({ data: nextPage});
-      }
-      else{
-        req.session.pageNum = req.session.pageNum + 1;
-        let nextPage = distinctEstablishments.slice(req.session.pageNum * 10, (req.session.pageNum + 1) * 10);
-        currentDisplayed = nextPage;
-        // req.session.pageNum = req.session.pageNum + 1;
-        console.log(req.session.pageNum);
-        res.send({ data: nextPage});
-      }
+      req.session.pageNum = req.session.pageNum + 1;
+      let nextPage = currentPagedArray.slice(req.session.pageNum * 10, (req.session.pageNum + 1) * 10);
+      currentDisplayed = nextPage;
+      // req.session.pageNum = req.session.pageNum + 1;
+      console.log(req.session.pageNum);
+      res.send({ data: nextPage});
     }
   }
   else{
@@ -164,18 +163,10 @@ app.put('/changePage', (req, res) => {
       res.send({ data: currentDisplayed});
     }
     else{
-      if(req.session.searched === 1){
-        req.session.pageNum = req.session.pageNum - 1;
-        let previousPage = searchedEstablishments.slice(req.session.pageNum * 10, (req.session.pageNum + 1) * 10);
-        currentDisplayed = previousPage;
-        res.send({ data: previousPage});
-      }
-      else{
-        req.session.pageNum = req.session.pageNum - 1;
-        let previousPage = distinctEstablishments.slice(req.session.pageNum * 10, (req.session.pageNum + 1) * 10);
-        currentDisplayed = previousPage;
-        res.send({ data: previousPage});
-      }
+      req.session.pageNum = req.session.pageNum - 1;
+      let previousPage = currentPagedArray.slice(req.session.pageNum * 10, (req.session.pageNum + 1) * 10);
+      currentDisplayed = previousPage;
+      res.send({ data: previousPage});
     }
   }
 });
