@@ -14,6 +14,7 @@ app.use(express.json());
 
 let distinctEstablishments = [];
 let currentDisplayed = [];
+let searchedEstablishments = [];
 
 app.use(session({
   genid: (req) => {
@@ -38,6 +39,7 @@ app.get('/allEstablishments', (req, res) => {
     apiToken comes from my personal developer account with SODA.
   */
   req.session.pageNum = 0;
+  req.session.searched = 0;
   if(req.session.establishmentId != null){
     console.log("From Server");
     // let firstTen = JSON.parse(JSON.stringify(distinctEstablishments.slice(0, 10)));
@@ -133,14 +135,23 @@ Current page's data is stored in the currentDisplayed array, which then can be
 used for the map to match the data.
 */
 app.put('/changePage', (req, res) => {
+  let currentPagedArray;
+
+  if(req.session.searched === 1){
+    currentPagedArray = searchedEstablishments;
+  }
+  else{
+    currentPagedArray = distinctEstablishments
+  }
+
   if(req.body.direction === 'next'){
-    if(req.session.pageNum >= Math.floor(distinctEstablishments.length / 10)){
+    if(req.session.pageNum >= Math.floor(currentPagedArray.length / 10)){
       res.send({ data: currentDisplayed});
       console.log("HERE");
     }
     else{
       req.session.pageNum = req.session.pageNum + 1;
-      let nextPage = distinctEstablishments.slice(req.session.pageNum * 10, (req.session.pageNum + 1) * 10);
+      let nextPage = currentPagedArray.slice(req.session.pageNum * 10, (req.session.pageNum + 1) * 10);
       currentDisplayed = nextPage;
       // req.session.pageNum = req.session.pageNum + 1;
       console.log(req.session.pageNum);
@@ -153,16 +164,30 @@ app.put('/changePage', (req, res) => {
     }
     else{
       req.session.pageNum = req.session.pageNum - 1;
-      let previousPage = distinctEstablishments.slice(req.session.pageNum * 10, (req.session.pageNum + 1) * 10);
+      let previousPage = currentPagedArray.slice(req.session.pageNum * 10, (req.session.pageNum + 1) * 10);
       currentDisplayed = previousPage;
       res.send({ data: previousPage});
     }
   }
 });
 
-// app.post('/search', (req, res) =>{
-//   let query = req.body.query;
-//   for
-// })
+app.post('/search', (req, res) => {
+  let query = req.body.filter;
+  let filteredArray = distinctEstablishments.filter(establishment => {
+    return establishment.name.includes(query.toUpperCase());
+  });
+  console.log(filteredArray);
+  if(filteredArray != null ){
+    req.session.pageNum = 0;
+    req.session.searched = 1;
+    searchedEstablishments = filteredArray;
+    let firstTen = filteredArray.slice(0, 10);
+    currentDisplayed = firstTen;
+    res.send({data: firstTen});
+  }
+  else{
+    res.send({data: currentDisplayed});
+  }
+})
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

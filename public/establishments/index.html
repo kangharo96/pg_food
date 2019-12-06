@@ -13,16 +13,37 @@
     <a href='../'>PG FOODS</a>
     <div class = 'barright'>
       <a href='../about/'>About</a>
-      <a href='#' class='active'>Establishments</a>
       <a href='../statistics/'>Statistics</a>
       <a href='../faqs/'>FAQs</a>
     </div>
   </div>
   <div class='head'>
     <h1>Establishments</h1>
+    <br />
   </div>
   <div class='content'>
-    <div class='selected'></div>
+    <div class="itembox">
+      <h2 class="h2">Details</h2>
+      <br />
+    </div>
+    <div id="info" class='selected itembox'>
+      <div class="owner">
+        <b>Owner:</b>
+        <br />
+        <p id="ownerText"></p>
+      </div>
+      <div class="address">
+        <b>Address:</b>
+        <br />
+        <p id="address1"></p>
+      </div>
+      <div class="category">
+        <b>Category:</b>
+        <br />
+        <p id="categoryText"></p>
+      </div>
+    </div>
+    <h2>Inspections</h2>
     <table id="establishments" class="display">
       <thead>
         <tr>
@@ -33,7 +54,7 @@
       </thead>
     </table>
   </div>
-    
+
   <div class='footer'>
     <p>Footer</p>
   </div>
@@ -54,14 +75,15 @@
     }
 
     function formatInfo(data) {
-      let string = '<h1>'+data.name+'</h1><h2>Details</h2>';
-      string += '<div class="itembox"><div class="iteminfo"><p>Owner:<br>' + data.owner + '</p><p>Address:<br>' + data.address_line_1;
+      document.querySelector('.head').innerHTML = "<h1>" + data.name + "<h2>";
+      document.querySelector('#info').querySelector('.owner').querySelector('#ownerText').innerHTML = data.owner;
       if (data.address_line_2 !== '------') {
-        string += ' ' + data.address_line_2;
+        document.querySelector('#info').querySelector('.address').querySelector('#address1').innerHTML = data.address_line_1 + "<br />" + data.address_line_2 + "<br />" + data.city + ", " + data.state + " " + data.zip;
       }
-      string += ',<br>' + data.city + ', ' + data.state + ' ' + data.zip + '</p><p>Category:<br>' + data.category+'</p></div></div>';
-      document.querySelector('.head').innerHTML = string;
-      document.querySelector('.selected').innerHTML = '<h2>Inspections</h2>';
+      else{
+        document.querySelector('#info').querySelector('.address').querySelector('#address1').innerHTML = data.address_line_1 + "<br />" + data.city + ", " + data.state + " " + data.zip;
+      }
+      document.querySelector('#info').querySelector('.category').querySelector('#categoryText').innerHTML = data.category;
     }
 
     function formatData(){
