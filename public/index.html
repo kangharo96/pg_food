@@ -3,12 +3,17 @@
 <head>
   <title>Our Project Website</title>
   <link rel="stylesheet" type="text/css" href="styles.css">
-  <link rel="stylesheet" type="text/css" href="https://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css"/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+  integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+  crossorigin=""/>
   <script type='text/javascript' src='//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js'></script>
-  <script type='text/javascript' src='https://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js'></script>
+  <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+    integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+    crossorigin="">
+  </script>
 </head>
 
-<body onload="logData()">
+<body onload="loadData()">
   <div class='topbar'>
     <a href='./#'>PG FOODS</a>
     <div class = 'barright'>
@@ -37,17 +42,17 @@
         </svg> -->
       </div>
 
-      <br>
+      <!-- <br> -->
       <div id='tab'>Establishments</div>
       <div id="map" style="height: 440px; border: 1px solid #AAA;"></div>
-      <script type='text/javascript' src='markers.json'></script>
+      <!-- <script type='text/javascript' src='markers.json'></script> -->
       <script type='text/javascript' src='leaf-demo.js'></script>
 
-      <button class="button" onclick="loadData()">Load Some JSON from a server</button>
-
+      <!-- <button class="button" onclick="loadData()">Load Some JSON from a server</button> -->
+      <br />
       <div class='templist'></div>
     </div>
-    
+
     <div class='footer'>
       <p>Footer</p>
     </div>
@@ -74,8 +79,12 @@
               '<a href="javascript:changePage(\'previous\')">❮</a>'+
               '<a href="javascript:changePage(\'next\')">❯</a>'+
             '</div>';
+      layerGroup.clearLayers();
       for (let i = 0; i < data.length; i++) {
         let t = data[i];
+        let long = Number(t.geocoded_column_1.coordinates[0]);
+        let lat = Number(t.geocoded_column_1.coordinates[1]);
+        L.marker([lat, long]).bindPopup(t.name).addTo(layerGroup);
         string += '<div class="itembox"><a href="javascript:establishmentClick('+t.establishment_id+')"><h1 class="itemname">'+t.name+'</h1></a><div class="iteminfo"><p>Inspection Status:<br>'+t.inspection_results+'</p><p>Address:<br>'+t.address_line_1+',<br>'+t.city+', '+t.state+' '+t.zip+'</p></div></div>';
       }
       document.querySelector(".templist").innerHTML = string;
