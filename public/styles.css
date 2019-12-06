@@ -152,3 +152,7 @@ body {
 }
 
 .pagination a:hover:not(.active) {background-color: #ddd;}
+
+.tableauPlaceholder {
+  margin: auto;
+}
