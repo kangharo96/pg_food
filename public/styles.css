@@ -47,16 +47,16 @@ body {
   text-align: left;
 }
 
-.content .itembox {
+.itembox {
   background: white;
 }
-.content .itembox a {
+.itembox a {
   text-align: left;
 }
-.content .itembox .itemname {
+.itembox .itemname {
   margin: 2%;
 }
-.content .itembox .iteminfo {
+.itembox .iteminfo {
   display: flex;
   justify-content: space-around;
   text-align: center;
