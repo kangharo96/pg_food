@@ -35,6 +35,7 @@ Copy .html, css and json files and put them in a folder that also matches the na
 Copy image files.
 Copy the executable files
 Install express via npm install express
+Enter command npm start
 
 How to run any tests you have written for your software
 
