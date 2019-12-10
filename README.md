@@ -23,8 +23,8 @@ System requirements
 •	 Git setup with command line and text editor. 		
 Third party components
 •	Jquery, Herokuapp to deploy
-•	JavaScript library From P.G county website
-•	Html,CSS
+•	API library From P.G county website
+•	Html, CSS, JavaScipt
 •	Json package.
 
 How to run your application on a server
@@ -34,7 +34,12 @@ One need to copy the files that make up your application.
 Copy .html, css and json files and put them in a folder that also matches the name when you deploy.
 Copy image files.
 Copy the executable files
+
 Install express via npm install express. install express-session via npm install express-session. Install node-fetch via npm install node-fetch. Finally, install uuid/v4 via npm install uuid/v4.
+
+Install express via npm install express
+Enter command npm start
+
 
 How to run any tests you have written for your software
 
