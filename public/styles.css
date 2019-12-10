@@ -3,6 +3,7 @@ body {
   margin: 0;
 }
 
+/* CSS rules to format the nav bar */
 .topbar {
   padding: 0.5em;
   background-color: rgb(57,99,98);
@@ -10,21 +11,21 @@ body {
   justify-content: space-between;
   align-items: center;
 }
-
 .topbar a {
   padding: 16px;
   text-decoration: none;
   color: white;
 }
 
+/* CSS rules to format the right-hand side of the nav bar */
 .barright {
   margin-right: 10%
 }
-
 .barright a.active {
   background-color: black;
 }
 
+/* CSS rules to format the 'header' of each page */
 .head {
   background-color: white;
   display: flex;
@@ -33,11 +34,13 @@ body {
   margin: auto;
 }
 
+/* CSS rules to format small bar above map on main page */
 #tab {
   border: 1px solid black;
   background-color: rgb(227,176,75);
 }
 
+/* CSS rules to format main content of each page */
 .content {
   background-color: rgb(223,205,195);
   text-align: center;
@@ -47,6 +50,7 @@ body {
   text-align: left;
 }
 
+/* CSS rules to format information about each establishment */
 .itembox {
   background: white;
 }
@@ -62,6 +66,7 @@ body {
   text-align: center;
 }
 
+/* CSS rules to format bottom of page */
 .footer {
   left: 0;
   bottom: 0;
@@ -75,14 +80,17 @@ body {
   height: 25px;
 } */
 
+/* CSS rule to format content on the about page */
 .flex_list {
   text-align: left;
 }
 
+/* CSS rule to limit width of content */
 .wrapper {
   margin: 0 10%;
 }
 
+/* CSS rules to format search bar */
 .search-container {
   display: flex;
   flex-direction: row;
