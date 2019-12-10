@@ -34,7 +34,7 @@ One need to copy the files that make up your application.
 Copy .html, css and json files and put them in a folder that also matches the name when you deploy.
 Copy image files.
 Copy the executable files
-Install express via npm install express
+Install express via npm install express. install express-session via npm install express-session. Install node-fetch via npm install node-fetch. Finally, install uuid/v4 via npm install uuid/v4.
 
 How to run any tests you have written for your software
 
@@ -53,36 +53,41 @@ Assumption: Chrome or Firefox or Safari or other supported browser must be used.
 Test Steps:
 
 Navigate to github.com
-Signup with the username and password and verify with the email you got in inbox. 
+Signup with the username and password and verify with the email you got in inbox.
 Click the ‘ upload file’ button.
 Upload all the html,json package and css file
 Click ‘merge’ or submit
 Click push to live or origin in github desktop
-Expected Result: You should be able to deploy the website through herokuapp. 
+Expected Result: You should be able to deploy the website through herokuapp.
 
 The API for your server application - all GET, POST, PATCH, etc endpoints, and what they each do
 
-Created a Back end project in node js .
-Server.js file has two API's
- /establishments gets by default all the establishments from the external API with given limit and token
-if we pass the option e_id to /establishments API . it will get specific establishment details 
-/establishmentSummary gets all the establishment summary of how many times it inspected so far. 
-Created front end with html/css/javascript
-default public/index.html file calls /establishmentSummary via AJAX and loads data to datatable. 
-We render the data with establishmentID as clickable item to fetch that particular records for establishment. 
-on click of establishment ID , we redirected to /html/establishments/index.html?e_id=<id> where we get the query params of establishmentID and pass to backend via AJAX call.
-data is loaded based on the given e_id value and show all the records. 
+All endpoints send data via JSON.
+
+The initial GET endpoint on our API is /allEstablishments. This endpoint will set request session variable to initialize the page's page number (for pagination), the variable indicating whether a search has been done, and the variable representing the current establishment id. By default these are all zero. Besides this, this endpoint returns the first 10 establishments from the PG County dataset. These first ten are then set to a currentDisplayed array representing the page's current view state. It also sets the distinctEstablishments array to all of the distinct establishments from the dataset, which will be used for searching.
+
+The GET /establishment endpoint returns the current establishment that has been looked at on the establishments page. So any time a user clicks on an establishment link from the main page they will be redirected to an establishments page, which then uses this endpoint to bind all the necessary data for that clicked establishment. It gets the data depending on what is stored in the establishment session variable. This gets the establishments data through an API call to the PG county data and returns that single object.
+
+The GET /sessionId is a test endpoint to ensure that the establishment session variable is being stored correctly. This returns the current establishment id stored in that variable.
+
+The POST /establishmentId endpoint updates the establishment id session variable based the json passed into the request body. The body should be a single json object with just one field called establishmentId. This happens on every click of an establishment from the home page.
+
+The PUT /changePage endpoint updates session variable representing the current page of the pagination. The variable is updated via the request body variable "direction" which should be either "next" or "prev" representing which way to go. The resulting new currentDisplayed array is sent back representing the new data.
+
+The POST /search endpoint takes a body parameter of "filter" which contains the current searched term in the search box. This is then used to filter through the distinctEstablishments array for matching establishment names. Once found the currentDisplayed array is updated to match the search filter and is then sent back to the client.
+
+All endpoints return data as json objects in an array under the "data" field. 
 
 
 A clear set of expectations around known bugs and a road-map for future development.
 
-We ran into problems such as downloading git through command line. There is a clear set of instructions but depending on computers (MACOS / Windows) the patch might not work. 
+We ran into problems such as downloading git through command line. There is a clear set of instructions but depending on computers (MACOS / Windows) the patch might not work.
 In that case you have to download the older patch.
-Deploying could be a pain if all the html,css and package json file is not there. 
+Deploying could be a pain if all the html,css and package json file is not there.
 Adding backend through node.js is also time consuming
 Breaking up a database with jquery and filter the data you need is also another barrier.
 There is browser compatibility problems and we highly recommend to use the latest updated browser such as Chrome and Safari or Firefox
-Website might not always be responsive and in that case the common fix would be to go to the development mode and source code and resizing the pixel. 
+Website might not always be responsive and in that case the common fix would be to go to the development mode and source code and resizing the pixel.
 Inspecting element in MACOS is another way to find common bugs.
 Make sure to remove all noindex codes as well.
 				References
@@ -90,7 +95,3 @@ Make sure to remove all noindex codes as well.
 https://supportline.microfocus.com/documentation/books/sx20books/pidepl.htm
 https://www.impactbnd.com/blog/website-bugs-after-site-launch
 https://blog.testlodge.com/how-to-write-test-cases-for-software-with-sample/
-
-
- 
-
