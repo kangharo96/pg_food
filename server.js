@@ -108,7 +108,6 @@ app.get('/establishment', (req, res) => {
     })
     .catch((err) => {
       console.log(err);
-      //res.redirect('/error');
     });
 });
 
@@ -153,7 +152,6 @@ app.put('/changePage', (req, res) => {
       req.session.pageNum = req.session.pageNum + 1;
       let nextPage = currentPagedArray.slice(req.session.pageNum * 10, (req.session.pageNum + 1) * 10);
       currentDisplayed = nextPage;
-      // req.session.pageNum = req.session.pageNum + 1;
       console.log(req.session.pageNum);
       res.send({ data: nextPage});
     }
