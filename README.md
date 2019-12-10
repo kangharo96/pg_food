@@ -23,8 +23,8 @@ System requirements
 •	 Git setup with command line and text editor. 		
 Third party components
 •	Jquery, Herokuapp to deploy
-•	JavaScript library From P.G county website
-•	Html,CSS
+•	API library From P.G county website
+•	Html, CSS, JavaScipt
 •	Json package.
 
 How to run your application on a server
